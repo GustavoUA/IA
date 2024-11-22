@@ -1,9 +1,6 @@
 import streamlit as st
 import ollama
 from typing import Generator
-import streamlit as st
-import asyncio
-
 
 #Configuración de la página
 st.set_page_config(
@@ -13,7 +10,8 @@ st.set_page_config(
     
 )
 
-#Generar respuestas
+
+
 def generate_chat_responses(chat_completation) -> Generator[str, None, None]:
     for chunk in chat_completation:
         if chunk['message']['content']:
@@ -27,7 +25,8 @@ if "message" not in st.session_state:
     st.session_state.messages.append({'role':'system','content':promtsistemas})
 
 
-#Genera contenedor
+
+
 with st.container():
     for message in st.session_state.messages:
        with st.chat_message(message['role']):
@@ -46,8 +45,8 @@ if prompUser:
     st.session_state.messages.append({'role':'user','content':prompUser})
     
     
-async def chat_completation(
-        model="deepseek-coder:6.7b", model="gemma2:2b",
+    chat_completation = ollama.chat(
+        model="deepseek-coder:6.7b",
         messages=[
             {
                 'role':m['role'],
